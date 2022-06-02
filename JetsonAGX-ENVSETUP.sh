@@ -47,7 +47,7 @@ ${PIP_INSTALL} -U Cython
 ${PIP_INSTALL} -U protobuf
 ${PIP_INSTALL} -U numpy pandas 
 ${PIP_INSTALL} -U "matplotlib==3.3.4"
-${PIP_INSTALL} -U scipy sklearn scikit-image
+${PIP_INSTALL} -U scipy sklearn scikit-image requests
 
 # install dependencies from source and PyTorch from wheel provided by NVIDIA
 ${PIP_INSTALL} -U future psutil dataclasses typing-extensions pyyaml tqdm seaborn
@@ -166,12 +166,10 @@ sudo ldconfig
 make clean
 sudo apt-get update
 
-# install yolov5 dependencies
+# clone yolov5 dependencies
 cd ~
 git clone https://github.com/ultralytics/yolov5  # clone
-cd yolov5
-pip3 install -r requirements.txt  # install requirements
-cd utils
+cd yolov5/utils
 rm -rf dataloaders.py
 wget https://raw.githubusercontent.com/ZacharyZhang-NY/AGXSETUP/main/dataloaders.py
 cd ~
