@@ -323,7 +323,7 @@ class LoadStreams:
             s = eval(s) if s.isnumeric() else s  # i.e. s = '0' local webcam
             if s == 0:#调用板载摄像头
                 s = 'nvarguscamerasrc sensor-id=0 ! \
-                               video/x-raw(memory:NVMM), width=(int)1920, height=(int)1080,\
+                               video/x-raw(memory:NVMM), width=(int)1280, height=(int)720,\
                                framerate=30/1 ! \
                                nvvidconv flip-method=0 ! \
                                video/x-raw, format=(string)BGRx ! \
