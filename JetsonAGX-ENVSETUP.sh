@@ -1,15 +1,15 @@
 #!/bin/bash
 set -e
 
-# remove something
+# remove something and maxpower
 cd ~
-sudo /usr/sbin/nvpmodel -m 0 #max power
+sudo /usr/sbin/nvpmodel -m 0
 sudo apt -y remove libreoffice* firefox*
 sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
 
 #install Jetpack
 sudo apt install -y nvidia-jetpack
-cd
+cd ~
 
 #install nomachine
 cd Downloads
@@ -20,6 +20,7 @@ cd ~
 
 #Camera Setup
 cd ~
+wget https://raw.githubusercontent.com/ZacharyZhang-NY/AGXSETUP/main/camera_overrides.isp
 sudo mv ./camera_overrides.isp /var/nvidia/nvcam/settings
 sudo chmod 664 /var/nvidia/nvcam/settings/camera_overrides.isp
 sudo chown root:root /var/nvidia/nvcam/settings/camera_overrides.isp
@@ -35,14 +36,12 @@ echo "moving to $TMPDIR"
 cd $TMPDIR
 
 export PATH=/home/zacharyzhang/.local/bin:$PATH
-source ~/.bashrc
 
 pip3 install -U pip
 
 # avoids warnings caused by invoking the pip3 wrapper script
 PIP_INSTALL="python3 -m pip install --user"
 export OPENBLAS_CORETYPE=ARMV8
-source ~/.bashrc
 
 ${PIP_INSTALL} -U Cython
 ${PIP_INSTALL} -U protobuf
@@ -64,13 +63,6 @@ git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
 cd torchvision
 export BUILD_VERSION=0.11.1
 python3 setup.py install --user
-cd ~
-
-# install yolov5 dependencies
-cd ~
-git clone https://github.com/ultralytics/yolov5  # clone
-cd yolov5
-pip3 install -r requirements.txt  # install requirements
 cd ~
 
 # reveal the CUDA location
@@ -174,6 +166,17 @@ sudo ldconfig
 make clean
 sudo apt-get update
 
+# install yolov5 dependencies
+cd ~
+git clone https://github.com/ultralytics/yolov5  # clone
+cd yolov5
+pip3 install -r requirements.txt  # install requirements
+cd utils
+rm -rf dataloaders.py
+wget https://raw.githubusercontent.com/ZacharyZhang-NY/AGXSETUP/main/dataloaders.py
+cd ~
+
+#setup env
 cd ~
 echo "export PATH=/home/zacharyzhang/.local/bin:$PATH" >> ~/.bashrc
 echo "export OPENBLAS_CORETYPE=ARMV8" >> ~/.bashrc
